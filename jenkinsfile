@@ -9,17 +9,14 @@ pipeline {
     stage('install') {
       steps {
         git branch: 'develop', url: 'https://github.com/Proyecto-SQA/TallerJenkins.git'
-        dir('frontend') {
           sh 'npm install'
-        }
+        
       }
     }
 
     stage('test') {
       steps {
-        dir('frontend') {
           sh 'npm run test'
-        }
       }
     }
 
