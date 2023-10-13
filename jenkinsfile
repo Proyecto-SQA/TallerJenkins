@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+    parameters {
+        choice(name: 'BUILD_ENV', choices: 'development\nproduction', description: 'Entorno de construcción')
+    }
+
   tools {
     nodejs "node"
   }
@@ -9,7 +13,7 @@ pipeline {
     stage('build') {
       steps {
         git branch: 'develop', url: 'https://github.com/Proyecto-SQA/TallerJenkins.git'
-          sh 'npm install'
+        sh 'npm install'
       }
     }
 
@@ -52,10 +56,27 @@ pipeline {
     }
 
     stage('Deploy-prod') {
+        when {
+                expression {
+                    // Ejecuta la etapa de despliegue solo en el entorno de producción
+                    params.BUILD_ENV == 'production'
+                }
+        }
       steps {
           echo 'run test automation .... '
       }
     }
 
   }
+
+post {
+    success {
+        echo 'El proceso de CI/CD se completó con éxito.'
+    }
+
+    failure {
+        echo 'El proceso de CI/CD ha fallado. Por favor, revisa los registros para obtener más detalles.'
+    }
+}
+
 }
