@@ -1,17 +1,17 @@
 pipeline {
 
-      agent any
+  agent any
 
-    tools {
-        nodejs "node"
-    }
+ tools {
+    nodejs "node"
+  }
 
-    stages{
-        stage('build'){
-            steps{
-                git branch: 'develop', url: 'https://github.com/Proyecto-SQA/TallerJenkins.git'
-                sh 'npm install'
-            }
-        }
+  stages {
+    stage('build') {
+      steps {
+        git branch: 'develop', url: 'https://github.com/Proyecto-SQA/TallerJenkins.git'
+        sh 'npm install'
+      }
     }
+  }
 }
