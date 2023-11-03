@@ -1,9 +1,6 @@
 pipeline {
   agent any
 
-    parameters {
-        choice(name: 'BUILD_ENV', choices: 'development\nproduction', description: 'Entorno de construcción')
-    }
 
   tools {
     nodejs "node"
@@ -16,66 +13,5 @@ pipeline {
         sh 'npm install'
       }
     }
-
-    stage('unit-test') {
-      steps {
-          sh 'npm run test'
-      }
-    }
-
-    stage('deploy-dev') {
-      steps {
-          echo 'Deploy to test env'
-      }
-    }
-
-    stage('test automation') {
-      steps {
-          echo 'run test automation .... '
-      }
-    }
-
-    stage('Parallel Stages') {
-        parallel {
-            stage('Performance') {
-                steps {
-                    // Define las instrucciones para la etapa 1
-                    sh 'echo "Ejecutando la Etapa 1"'
-                }
-            }
-
-            stage('Devsecops') {
-                steps {
-                    sh 'echo "Ejecutando stage de devsecops"'
-                }
-            }
-
-            // Se pueden agregar más etapas paralelas según sea necesario
-        }
-    }
-
-    stage('Deploy-prod') {
-        when {
-                expression {
-                    // Ejecuta la etapa de despliegue solo en el entorno de producción
-                    params.BUILD_ENV == 'production'
-                }
-        }
-      steps {
-          echo 'run deploy to prod .... '
-      }
-    }
-
   }
-
-post {
-    success {
-        echo 'El proceso de CI/CD se completó con éxito.'
-    }
-
-    failure {
-        echo 'El proceso de CI/CD ha fallado. Por favor, revisa los registros para obtener más detalles.'
-    }
-}
-
 }
