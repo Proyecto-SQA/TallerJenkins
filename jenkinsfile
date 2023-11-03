@@ -13,5 +13,24 @@ pipeline {
         sh 'npm install'
       }
     }
+
+    stage('unit-test') {
+      steps {
+          sh 'npm run test'
+      }
+    }
+
+    stage('deploy-dev') {
+      steps {
+          echo 'Deploy to test env'
+      }
+    }
+
+    stage('test automation') {
+      steps {
+          echo 'run test automation .... '
+      }
+    }
+
   }
 }
