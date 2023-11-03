@@ -1,0 +1,17 @@
+pipeline {
+
+      agent any
+
+    tools {
+        nodejs "node"
+    }
+
+    stages{
+        stage('build'){
+            steps{
+                git branch: 'develop', url: 'https://github.com/Proyecto-SQA/TallerJenkins.git'
+                sh 'npm install'
+            }
+        }
+    }
+}
